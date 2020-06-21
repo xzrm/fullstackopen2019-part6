@@ -3,19 +3,16 @@ import { connect } from 'react-redux'
 import { upvoteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const sortByVotes = (anecdotes) => {
-  const compare = (a, b) => b.votes - a.votes
-  const copyAnecdotes = [...anecdotes]
-  return copyAnecdotes.sort(compare)
 
+const compareVotes = (a, b) => {
+  return b.votes - a.votes
 }
+
 const AnecdoteList = (props) => {
 
-  const vote = (anecdote) => {
-    anecdote.votes++
-    props.upvoteAnecdote(anecdote.id, anecdote)
+  const upvote = (anecdote) => {
+    props.upvoteAnecdote(anecdote)
     props.setNotification(`you voted '${anecdote.content}'`, 5000)
-
   }
 
   return (
@@ -27,21 +24,22 @@ const AnecdoteList = (props) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote)}>vote</button>
+            <button onClick={() => upvote(anecdote)}>vote</button>
           </div>
         </div>
-      )
-      }
+      )}
     </div>
   )
 }
 
-const anecdotesToShow =({anecdotes, filter}) => {
+
+// Redux store has state with: anecdotes, filter & notification
+const anecdotesToShow = ({ anecdotes, filter }) => {
   const anecdotesToDisplay = anecdotes
     .filter(anecdote => anecdote.content.includes(filter))
-  return sortByVotes(anecdotesToDisplay)
+    .sort(compareVotes)
+  return anecdotesToDisplay
 }
-
 
 const mapStateToProps = (state) => {
   return {

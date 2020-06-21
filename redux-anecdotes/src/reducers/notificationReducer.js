@@ -8,7 +8,6 @@ const notificationReducer = (state = '', action) => {
 }
 
 
-
 export const setNotification = (message, time) => {
   return dispatch => {
     dispatch(notificationChange(message))
