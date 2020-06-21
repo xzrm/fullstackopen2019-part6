@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
@@ -10,12 +10,12 @@ import { initializeAnecdotes } from './reducers/anecdoteReducer'
 
 
 
-const App = (props) => {
+const App = () => {
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    props.initializeAnecdotes()
-  }, [])
-
+    dispatch(initializeAnecdotes())
+  }, [dispatch])
 
 
   return (
@@ -29,4 +29,4 @@ const App = (props) => {
   )
 }
 
-export default connect(null, { initializeAnecdotes })(App)
+export default App
